@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     List<LoginModel> list = new ArrayList<>();
     RVAdapter rvAdapter;
     LoginModel loginModelSession = new LoginModel();
-    String MY_NUMBER = "082141047770";
+    String MY_NUMBER = "YOUR_PHONE_NUMBER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
