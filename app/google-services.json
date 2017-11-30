@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "3435747944",
+    "firebase_url": "https://woven-fountain-129010.firebaseio.com",
+    "project_id": "woven-fountain-129010"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3435747944:android:ff4ff246147c14b7",
+        "android_client_info": {
+          "package_name": "id.co.icg.rnd.kickmode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3435747944-4ceg244rf1k658c6ikgqn09le5cgqkn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.co.icg.rnd.kickmode",
+            "certificate_hash": "fef768fc237e550870de68a3101d75a8f8b492fd"
+          }
+        },
+        {
+          "client_id": "3435747944-qq8p2hl9jo1c10fjqdpnsdkka39p95ft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-DViysat21wwNW8FMR-cwV85u4er5VtM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3435747944-qq8p2hl9jo1c10fjqdpnsdkka39p95ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
