@@ -5,131 +5,145 @@
     android:background="#eee"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title_session"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:padding="16dp"
-        android:text="Sesi saat ini"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="#AAA"
-        android:orientation="vertical"></LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/my_session"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#FFF"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_weight="1">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tv_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kick App"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="Active"
-                android:textColor="@android:color/holo_green_light"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_android_version_model"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Android 6.0, htc HTC_ONE_M8"
-            android:textColor="#999" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_ip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="192.123.123"
-            android:textColor="#999" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/title_session"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:text="Sesi saat ini"
+                android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="#AAA"
-        android:orientation="vertical"></LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="vertical"></LinearLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:padding="16dp"
-        android:text="Sesi lainnya"
-        android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/my_session"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="#AAA"
-        android:orientation="vertical"></LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recylcer_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#FFF" />
+                    <TextView
+                        android:id="@+id/tv_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kick App"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="#AAA"
-        android:orientation="vertical"></LinearLayout>
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="Active"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textStyle="bold" />
+                </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_refuse_all"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#FFF"
-        android:padding="16dp"
-        android:text="Matikan Semua Sesi"
-        android:textAllCaps="true"
-        android:textColor="@android:color/holo_blue_light"
-        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_android_version_model"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Android 6.0, htc HTC_ONE_M8"
+                    android:textColor="#999" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="1"
-        android:background="#AAA"
-        android:orientation="vertical"></LinearLayout>
+                <TextView
+                    android:id="@+id/tv_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="192.123.123"
+                    android:textColor="#999" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Login" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:text="Sesi lainnya"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="vertical"></LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recylcer_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFF" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_refuse_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:padding="16dp"
+                android:text="Matikan Semua Sesi"
+                android:textAllCaps="true"
+                android:textColor="@android:color/holo_blue_light"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="vertical"></LinearLayout>
+
+            <Button
+                android:id="@+id/bt_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Login" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 
 </LinearLayout>

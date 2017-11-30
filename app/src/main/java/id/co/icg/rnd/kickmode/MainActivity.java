@@ -11,6 +11,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +35,9 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +45,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import im.delight.android.location.SimpleLocation;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     List<LoginModel> list = new ArrayList<>();
     RVAdapter rvAdapter;
     LoginModel loginModelSession = new LoginModel();
-    String MY_NUMBER = "YOUR_PHONE_NUMBER";
+    String MY_NUMBER = "082141047770";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +111,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    final String response = runURL("https://ifcfg.me/ip");
+                    loginModelSession.setLatestIP(response.replace("\n", ""));
+                    myRef.child(loginModelSession.getId()).setValue(loginModelSession);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tvIp.setText(
+                                    "IP : "+loginModelSession.getLatestIP() + "\n"
+                                            + "Lokasi : "+loginModelSession.getSimpleLocation()+ "\n"
+                                            + "Latest Login : "+loginModelSession.getTime()
+                            );
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+
     }
 
     private void initListenerRealtimeDB() {
@@ -179,9 +213,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void setMySessionUI() {
-        tvAndroidVersionModel.setText(loginModelSession.getAndroidOs() + " " + loginModelSession.getAndroidType());
-        tvIp.setText(loginModelSession.getLatestIP() + "\n" + loginModelSession.getId());
-        tvVersion.setText("KickApp version " + loginModelSession.getAppVersion());
+        tvAndroidVersionModel.setText("Device : "+loginModelSession.getAndroidOs() + " " + loginModelSession.getAndroidType());
+        tvIp.setText(
+                "IP : "+loginModelSession.getLatestIP() + "\n"
+                + "Lokasi : "+loginModelSession.getSimpleLocation()+ "\n"
+                + "Latest Login : "+loginModelSession.getTime()
+        );
+        tvVersion.setText("iReload - V" + loginModelSession.getAppVersion());
     }
 
     private void setLoginSession(final LoginModel loginModel, final boolean loginClicked) {
@@ -191,41 +229,64 @@ public class MainActivity extends AppCompatActivity {
         String IP = getIP();
         String versionApp = versionApp();
         final String imei = imei();
-        loginModel.setAndroidOs(version);
-        loginModel.setAndroidType(deviceName);
-        loginModel.setAppVersion(versionApp);
-        loginModel.setLatestIP(IP);
-        loginModel.setId(imei);
+        double lat = simpleLocation.getLatitude();
+        double lng = simpleLocation.getLongitude();
 
-        myRef.child(imei).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                LoginModel model = dataSnapshot.getValue(LoginModel.class);
-                if (model != null) {
-                    loginModel.setId(model.getId());
-                    loginModel.setAndroidOs(model.getAndroidOs());
-                    loginModel.setActive(model.isActive());
-                    loginModel.setLatestIP(model.getLatestIP());
-                    loginModel.setAppVersion(model.getAppVersion());
-                    loginModel.setLocation(model.getLocation());
-                    if(loginModel.isActive()){
-                        btLogin.setText("LOGOUT");
-                    }else {
-                        btLogin.setText("LOGIN");
-                    }
-                } else {
-                    if(loginClicked) {
-                        loginModel.setActive(true);
-                        myRef.child(imei).setValue(loginModel);
+//        if(lat > 0 && lng > 0) {
+            String location = getAddress(lat, lng);
+            String simpleLocation = getSimpleAddress(lat, lng);
+
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
+            String strDate = sdf.format(date);
+
+            loginModel.setAndroidOs(version);
+            loginModel.setAndroidType(manufactur + " " + deviceName);
+            loginModel.setAppVersion(versionApp);
+            loginModel.setLatestIP(IP);
+            loginModel.setId(imei);
+            loginModel.setLat(lat);
+            loginModel.setLng(lng);
+            loginModel.setLocation(location);
+            loginModel.setTime(strDate);
+            loginModel.setSimpleLocation(simpleLocation);
+
+            myRef.child(imei).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    LoginModel model = dataSnapshot.getValue(LoginModel.class);
+                    if (model != null) {
+                        loginModel.setId(model.getId());
+                        loginModel.setAndroidOs(model.getAndroidOs());
+                        loginModel.setActive(model.isActive());
+                        loginModel.setLatestIP(model.getLatestIP());
+                        loginModel.setAppVersion(model.getAppVersion());
+                        loginModel.setLocation(model.getLocation());
+                        loginModel.setAndroidType(model.getAndroidType());
+                        loginModel.setLocation(model.getLocation());
+                        loginModel.setTime(model.getTime());
+                        loginModel.setSimpleLocation(model.getSimpleLocation());
+                        if (loginModel.isActive()) {
+                            btLogin.setText("LOGOUT");
+                        } else {
+                            btLogin.setText("LOGIN");
+                        }
+                    } else {
+                        if (loginClicked) {
+                            loginModel.setActive(true);
+                            myRef.child(imei).setValue(loginModel);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+//        }else{
+//            setLoginSession(loginModel, loginClicked);
+//        }
     }
 
     private PermissionListener permissionListener = new PermissionListener() {
@@ -238,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 setMySessionUI();
                 initAdapter();
                 initListenerRealtimeDB();
+
             }
         }
 
@@ -250,7 +312,9 @@ public class MainActivity extends AppCompatActivity {
     private String imei() {
         TelephonyManager mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String deviceid = mTelephonyManager.getDeviceId();
-        return deviceid;
+        String android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        return android_id;
     }
 
     private String versionApp() {
@@ -274,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
 //        return "Testing";
     }
 
-    public void getAddress(double lat, double lng) {
+    public String getAddress(double lat, double lng) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
@@ -293,10 +357,39 @@ public class MainActivity extends AppCompatActivity {
             // Toast.LENGTH_SHORT).show();
 
             // TennisAppActivity.showDialog(add);
+            return add;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
+    public String getSimpleAddress(double lat, double lng) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            Address obj = addresses.get(0);
+            String add = obj.getAddressLine(0);
+            add = add + "\n"+ obj.getLocality();
+//            add = add + "\n" + obj.getCountryCode();
+            add = add + " , " + obj.getSubAdminArea();
+//            add = add + "\n" + obj.getPostalCode();
+            add = add + " , " + obj.getAdminArea();
+            add = add + " , " + obj.getCountryName();
+//            add = add + " ," + obj.getSubThoroughfare();
+            Log.v("IGA", "Address" + add);
+            // Toast.makeText(this, "Address=>" + add,
+            // Toast.LENGTH_SHORT).show();
+
+            // TennisAppActivity.showDialog(add);
+            return add;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
         }
     }
 
@@ -327,4 +420,25 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
 
     }
+
+    OkHttpClient client = new OkHttpClient();
+
+    String runURL(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        String string = response.body().string();
+        return string;
+    }
+
+    private String getTime(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
+        String strDate = sdf.format(date);
+        return strDate;
+    }
+
+
 }

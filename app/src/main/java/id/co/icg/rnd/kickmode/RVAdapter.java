@@ -38,9 +38,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final LoginModel loginModel = list.get(position);
-        holder.tvAndroidVersionModel.setText(loginModel.getAndroidOs()+loginModel.getAndroidType());
-        holder.tvVersion.setText("KickApp version "+loginModel.getAppVersion());
-        holder.tvIp.setText(loginModel.getLatestIP()+"\n"+loginModel.getId());
+        holder.tvAndroidVersionModel.setText("Device : "+loginModel.getAndroidOs()+", "+loginModel.getAndroidType());
+        holder.tvVersion.setText("iReload - V"+loginModel.getAppVersion());
+        holder.tvIp.setText("IP : "+loginModel.getLatestIP());
+        holder.tvTime.setText("Latest Login : "+loginModel.getTime());
+        holder.tvLocation.setText("Lokasi : "+loginModel.getSimpleLocation());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +65,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         TextView tvAndroidVersionModel;
         @BindView(R.id.tv_ip)
         TextView tvIp;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
+        @BindView(R.id.tv_location)
+        TextView tvLocation;
 
         public ViewHolder(View itemView) {
             super(itemView);

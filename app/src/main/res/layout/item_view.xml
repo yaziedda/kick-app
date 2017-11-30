@@ -25,14 +25,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="30 Nov" />
         </RelativeLayout>
 
         <TextView
@@ -47,6 +39,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="192.123.123"
+            android:textColor="#999" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#999" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="30 Nov"
             android:textColor="#999" />
     </LinearLayout>
 
